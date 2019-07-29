@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-HOST_URL	= ''
+HOST_URL	= 'https://comedor.unnoba.edu.ar'
 EMAIL 		= ''
 PASSWORD	= ''
 
