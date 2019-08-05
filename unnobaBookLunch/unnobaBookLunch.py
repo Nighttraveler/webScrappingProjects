@@ -71,9 +71,9 @@ def get_cartas_id(browser):
    cartas_id = list()
 
    for link in browser.links():
-      match = re.search('value:\'(\d+)\'' ,str(dict(link.attrs).get('onclick')))
+      match = re.search('value:\'(\d+)\'', str(dict(link.attrs).get('onclick')))
       if match:
-         cartas_id.append( match.group(1))
+         cartas_id.append(match.group(1))
    return cartas_id
 
    pass
@@ -104,14 +104,22 @@ if __name__ == '__main__':
    browser.set_handle_robots(False)
    browser.set_cookiejar(cookies)
 
-   browser.addheaders = [  ('User-agent', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0')]              
+   browser.addheaders = [('User-agent', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0')]
 
    browser.open(settings.HOST_URL)
 
    login(browser)
 
-   for carta in get_cartas_id(browser):  
-      print "Booking Menu N° {}\n".format(carta)    
+   for index,carta in enumerate(get_cartas_id(browser)):
+      print("Booking Menu N° {}".format(carta))
       submit_day(browser, carta)
+      link_text_day = browser.find_link(text_regex="\d+\/\d+\/\d+", nr=index)
+
+      l = browser.links(text="Reservar")
+      match = re.search("\('(.*)'\)", dict(l.next().attrs).get("onclick"))
+      if match:
+         print("{0} {1}\n".format(link_text_day.text, match.group(1)))
+      else:
+         print("{}".format(link_text_day.text))
       submit_reservar(browser)
       submit_confirm_reserva(browser)

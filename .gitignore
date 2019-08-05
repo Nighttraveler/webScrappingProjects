@@ -3,3 +3,4 @@ venv-departure-time/
 *.log
 *.iml
 *.pyc
+__pycache__/
